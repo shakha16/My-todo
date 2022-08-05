@@ -1,13 +1,16 @@
-let url = "http://localhost:7001"
+let url = "http://localhost:3001"
 let two = document.querySelector('.two2')
 
-axios.get(url + '/todos')
-    .then(res => {
-        if (res.status == 200 || res.status == 201) {
-            reload(res.data)
-        }
-    })
+function udateData() {
+    axios.get(url + '/todos')
+        .then(res => {
+            if (res.status == 200 || res.status == 201) {
+                reload(res.data)
+            }
+        })
+}
 
+udateData()
 
 function reload(arr) {
     two.innerHTML = ""
@@ -54,6 +57,8 @@ let inp = document.querySelector('.inp')
 
 
 form.onsubmit = (e) => {
+    e.preventDefault()
+    
 
     let obj = {
         id: Math.random(),
@@ -70,7 +75,7 @@ form.onsubmit = (e) => {
         axios.post(url + '/todos', obj)
             .then(res => {
                 if (res.status === 200 || res.status === 201) {
-                    console.log('good');
+                    udateData()
                 }
             })
             .catch(err => console.log(err))
